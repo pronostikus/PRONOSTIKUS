@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pronostikus</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(135deg,#0f172a,#1e293b);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+.container{
+    width:100%;max-width:760px;background:#fff;border-radius:18px;padding:28px;
+    box-shadow:0 20px 40px rgba(0,0,0,.25);
+}
+header{text-align:center;margin-bottom:25px}
+.brand{
+    font-size:34px;font-weight:700;
+    background:linear-gradient(90deg,#22c55e,#38bdf8,#2563eb);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+header p{margin-top:6px;color:#475569;font-size:14px}
+
+.team-block{
+    background:#f8fafc;border-radius:14px;padding:18px;margin-bottom:16px;
+    border:1px solid #e2e8f0;
+}
+
+label{display:block;margin-top:12px;font-size:13px;color:#334155}
+
+input,select{
+    width:100%;margin-top:6px;padding:12px;border-radius:10px;
+    border:1px solid #cbd5f5;font-size:14px;background:#fff
+}
+
+input[type="text"]{text-transform:uppercase}
+
+button{
+    width:100%;margin-top:20px;padding:14px;border:none;border-radius:14px;
+    font-size:16px;font-weight:700;cursor:pointer;
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff
+}
+
+.result{
+    margin-top:20px;padding:18px;border-radius:14px;background:#eef2ff;
+    border:1px solid #c7d2fe;display:none;font-size:14px
+}
+
+.history{
+    margin-top:20px;padding:15px;border-radius:14px;background:#f1f5f9;
+    font-size:13px;max-height:200px;overflow:auto
+}
+
+.match-logo{
+    display:flex;gap:10px;align-items:center;margin-bottom:10px
+}
+.match-logo img{width:28px;height:28px}
+</style>
+</head>
+<body>
+
+<div class="container">
+<header>
+<h1 class="brand">⚽ PRONOSTIKUS</h1>
+<p>Análisis y pronóstico deportivo inteligente</p>
+</header>
+
+<datalist id="teamsList">
+<option value="REAL MADRID">
+<option value="FC BARCELONA">
+<option value="MANCHESTER CITY">
+<option value="LIVERPOOL">
+<option value="BAYERN MÚNICH">
+<option value="JUVENTUS">
+<option value="PSG">
+<option value="INTER MIAMI">
+</datalist>
+
+<div class="team-block">
+<h3>Equipo 1</h3>
+<label>Equipo</label>
+<input list="teamsList" id="team1" oninput="this.value=this.value.toUpperCase()">
+
+<label>Cuota</label>
+<input type="number" step="0.01" id="odd1">
+
+<label>Condición</label>
+<select id="role1" onchange="role2.value=this.value==='local'?'visitante':'local'">
+<option value="local">Local</option>
+<option value="visitante">Visitante</option>
+</select>
+</div>
+
+<div class="team-block">
+<h3>Equipo 2</h3>
+<label>Equipo</label>
+<input list="teamsList" id="team2" oninput="this.value=this.value.toUpperCase()">
+
+<label>Cuota</label>
+<input type="number" step="0.01" id="odd2">
+
+<label>Condición</label>
+<select id="role2">
+<option value="visitante">Visitante</option>
+<option value="local">Local</option>
+</select>
+</div>
+
+<button onclick="calculate()">PRONOSTICAR</button>
+
+<div id="result" class="result"></div>
+
+<button id="shareBtn" onclick="shareResult()" style="display:none;">
+COMPARTIR RESULTADO
+</button>
+
+<div class="history" id="history"></div>
+
+</div>
+
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+<script>
+function logo(name){
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=2563eb&color=fff&size=64`;
+}
+
+function format(n){
+    return n.trim().toLowerCase().replace(/\b\w/g,l=>l.toUpperCase());
+}
+
+function calculate(){
+    const t1=format(team1.value||"Equipo 1");
+    const t2=format(team2.value||"Equipo 2");
+
+    const o1=parseFloat(odd1.value);
+    const o2=parseFloat(odd2.value);
+
+    if(!o1||!o2){alert("Introduce cuotas válidas");return;}
+
+    let p1=1/o1;
+    let p2=1/o2;
+
+    if(role1.value==="local")p1*=1.1;
+    if(role2.value==="local")p2*=1.1;
+
+    const total=p1+p2;
+    p1=(p1/total)*100;
+    p2=(p2/total)*100;
+
+    const diff=Math.abs(p1-p2);
+
+    let pred="";
+    if(diff<4) pred="EMPATE probable";
+    else if(diff<10) pred=p1>p2?`${t1} o Empate`:`${t2} o Empate`;
+    else pred=p1>p2?`Gana ${t1}`:`Gana ${t2}`;
+
+    const local=role1.value==="local"?t1:t2;
+    const visit=role1.value==="local"?t2:t1;
+
+    result.style.display="block";
+    result.innerHTML=`
+        <div class="match-logo">
+            <img src="${logo(local)}"> vs
+            <img src="${logo(visit)}">
+        </div>
+        <strong>Partido:</strong><br>${local} vs ${visit}<br><br>
+        ${t1}: ${p1.toFixed(1)}%<br>
+        ${t2}: ${p2.toFixed(1)}%<br><br>
+        <strong>Pronóstico:</strong> ${pred}
+    `;
+
+    shareBtn.style.display="block";
+
+    saveHistory(`${local} vs ${visit} → ${pred}`);
+}
+
+function saveHistory(text){
+    let h=JSON.parse(localStorage.getItem("pk_history")||"[]");
+    h.unshift(text);
+    h=h.slice(0,10);
+    localStorage.setItem("pk_history",JSON.stringify(h));
+    history.innerHTML="<strong>Historial:</strong><br>"+h.join("<br>");
+}
+saveHistory("");
+
+async function shareResult(){
+    const canvas = await html2canvas(result);
+    const blob = await new Promise(r=>canvas.toBlob(r));
+
+    const file = new File([blob],"pronostikus.png",{type:"image/png"});
+
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+        navigator.share({files:[file],title:"Pronóstico"});
+    }else{
+        const link=document.createElement("a");
+        link.download="pronostikus.png";
+        link.href=canvas.toDataURL();
+        link.click();
+    }
+}
+</script>
+
+</body>
+</html>
+
