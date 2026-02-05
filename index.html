@@ -15,11 +15,15 @@ body{
     min-height:100vh;
     display:flex;
     justify-content:center;
-    align-items:center;
+    align-items:flex-start;
     padding:20px;
 }
 .container{
-    width:100%;max-width:760px;background:#fff;border-radius:18px;padding:28px;
+    width:100%;
+    max-width:760px;
+    background:#fff;
+    border-radius:18px;
+    padding:28px;
     box-shadow:0 20px 40px rgba(0,0,0,.25);
 }
 header{text-align:center;margin-bottom:25px}
@@ -48,7 +52,8 @@ input[type="text"]{text-transform:uppercase}
 button{
     width:100%;margin-top:20px;padding:14px;border:none;border-radius:14px;
     font-size:16px;font-weight:700;cursor:pointer;
-    background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;
+    white-space:normal;
 }
 
 .result{
@@ -65,6 +70,12 @@ button{
     display:flex;gap:10px;align-items:center;margin-bottom:10px
 }
 .match-logo img{width:28px;height:28px}
+
+@media(max-width:600px){
+    .brand{font-size:26px}
+    body{padding:8px}
+    .container{padding:16px}
+}
 </style>
 </head>
 <body>
@@ -121,14 +132,12 @@ button{
 <div id="result" class="result"></div>
 
 <button id="shareBtn" onclick="shareResult()" style="display:none;">
-COMPARTIR RESULTADO
+COMPARTIR SITIO
 </button>
 
 <div class="history" id="history"></div>
 
 </div>
-
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <script>
 function logo(name){
@@ -187,30 +196,88 @@ function calculate(){
 
 function saveHistory(text){
     let h=JSON.parse(localStorage.getItem("pk_history")||"[]");
-    h.unshift(text);
+    if(text) h.unshift(text);
     h=h.slice(0,10);
     localStorage.setItem("pk_history",JSON.stringify(h));
     history.innerHTML="<strong>Historial:</strong><br>"+h.join("<br>");
 }
 saveHistory("");
 
-async function shareResult(){
-    const canvas = await html2canvas(result);
-    const blob = await new Promise(r=>canvas.toBlob(r));
+function shareResult(){
+    const url = window.location.href;
+    const text = `¡Mira Pronostikus! Analiza partidos y pronósticos aquí: ${url}`;
 
-    const file = new File([blob],"pronostikus.png",{type:"image/png"});
-
-    if(navigator.canShare && navigator.canShare({files:[file]})){
-        navigator.share({files:[file],title:"Pronóstico"});
-    }else{
-        const link=document.createElement("a");
-        link.download="pronostikus.png";
-        link.href=canvas.toDataURL();
-        link.click();
+    if(navigator.share){
+        navigator.share({
+            title: "Pronostikus",
+            text: text,
+            url: url
+        });
+    } else {
+        navigator.clipboard.writeText(url);
+        alert("URL del sitio copiada: " + url);
     }
 }
 </script>
 
 </body>
 </html>
+
+<div class="top3-camisetas" style="margin-top:40px;">
+  <h2 style="text-align:center;color:#1d4ed8;margin-bottom:20px;">TOP 3 CAMISETAS MÁS VENDIDAS</h2>
+  
+  <div class="camisetas-container" style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;">
+    
+    <!-- Camiseta 1 -->
+    <div class="camiseta" style="flex:1 1 30%;text-align:center;background:#f8fafc;padding:12px;border-radius:14px;border:1px solid #c7d2fe;">
+      <a href="https://www.amazon.com/dp/IDAFILIADO1" target="_blank">
+        <img src="https://images.unsplash.com/photo-1600181953896-536a41a02a64?auto=format&fit=crop&w=400&q=80" 
+             alt="Camiseta 1" style="width:100%;border-radius:12px;margin-bottom:12px;box-shadow:0 6px 12px rgba(0,0,0,0.15);">
+      </a>
+      <a href="https://www.amazon.com/dp/IDAFILIADO1" target="_blank">
+        <button style="width:100%;padding:12px;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,#22c55e,#2563eb);color:#fff;font-size:14px;cursor:pointer;transition:0.3s;">
+          Comprar
+        </button>
+      </a>
+    </div>
+    
+    <!-- Camiseta 2 -->
+    <div class="camiseta" style="flex:1 1 30%;text-align:center;background:#f8fafc;padding:12px;border-radius:14px;border:1px solid #c7d2fe;">
+      <a href="https://www.amazon.com/dp/IDAFILIADO2" target="_blank">
+        <img src="https://images.unsplash.com/photo-1600181953896-536a41a02a64?auto=format&fit=crop&w=400&q=80" 
+             alt="Camiseta 2" style="width:100%;border-radius:12px;margin-bottom:12px;box-shadow:0 6px 12px rgba(0,0,0,0.15);">
+      </a>
+      <a href="https://www.amazon.com/dp/IDAFILIADO2" target="_blank">
+        <button style="width:100%;padding:12px;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,#22c55e,#2563eb);color:#fff;font-size:14px;cursor:pointer;transition:0.3s;">
+          Comprar
+        </button>
+      </a>
+    </div>
+    
+    <!-- Camiseta 3 -->
+    <div class="camiseta" style="flex:1 1 30%;text-align:center;background:#f8fafc;padding:12px;border-radius:14px;border:1px solid #c7d2fe;">
+      <a href="https://www.amazon.com/dp/IDAFILIADO3" target="_blank">
+        <img src="https://images.unsplash.com/photo-1600181953896-536a41a02a64?auto=format&fit=crop&w=400&q=80" 
+             alt="Camiseta 3" style="width:100%;border-radius:12px;margin-bottom:12px;box-shadow:0 6px 12px rgba(0,0,0,0.15);">
+      </a>
+      <a href="https://www.amazon.com/dp/IDAFILIADO3" target="_blank">
+        <button style="width:100%;padding:12px;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,#22c55e,#2563eb);color:#fff;font-size:14px;cursor:pointer;transition:0.3s;">
+          Comprar
+        </button>
+      </a>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Opcional: efecto hover para los botones -->
+<style>
+.top3-camisetas button:hover{
+  transform: translateY(-2px);
+  box-shadow:0 8px 16px rgba(0,0,0,0.25);
+}
+@media(max-width:800px){
+  .camisetas-container{flex-direction:column;gap:16px;}
+}
+</style>
 
