@@ -13,9 +13,6 @@ body{
     font-family:'Poppins',sans-serif;
     background:linear-gradient(135deg,#0f172a,#1e293b);
     min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:flex-start;
     padding:20px;
 }
 .container{
@@ -25,6 +22,7 @@ body{
     border-radius:18px;
     padding:28px;
     box-shadow:0 20px 40px rgba(0,0,0,.25);
+    margin:0 auto;
 }
 header{text-align:center;margin-bottom:25px}
 .brand{
@@ -54,6 +52,12 @@ button{
     font-size:16px;font-weight:700;cursor:pointer;
     background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;
     white-space:normal;
+    transition:0.3s;
+}
+
+button:hover{
+    transform: translateY(-2px);
+    box-shadow:0 8px 16px rgba(0,0,0,0.25);
 }
 
 .result{
@@ -71,6 +75,47 @@ button{
 }
 .match-logo img{width:28px;height:28px}
 
+.top3-camisetas{
+    width:100%;
+    max-width:1200px;
+    margin:40px auto 0 auto;
+    padding:0 10px;
+}
+.camisetas-container{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    gap:16px;
+    margin-top:20px;
+}
+.camiseta{
+    flex:1 1 30%;
+    text-align:center;
+    background:#f8fafc;
+    padding:12px;
+    border-radius:14px;
+    border:1px solid #c7d2fe;
+}
+.camiseta img{
+    width:100%;
+    border-radius:12px;
+    margin-bottom:12px;
+    box-shadow:0 6px 12px rgba(0,0,0,0.15);
+}
+.camiseta button{
+    width:100%;
+    padding:12px;
+    font-weight:700;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(135deg,#22c55e,#2563eb);
+    color:#fff;
+    font-size:14px;
+    cursor:pointer;
+}
+@media(max-width:800px){
+  .camisetas-container{flex-direction:column;gap:16px;}
+}
 @media(max-width:600px){
     .brand{font-size:26px}
     body{padding:8px}
@@ -136,7 +181,40 @@ COMPARTIR SITIO
 </button>
 
 <div class="history" id="history"></div>
+</div> <!-- fin container -->
 
+<!-- BLOQUE TOP 3 CAMISETAS -->
+<div class="top3-camisetas">
+<h2 style="text-align:center;color:#1d4ed8;margin-bottom:20px;">TOP 3 CAMISETAS MÁS VENDIDAS</h2>
+<div class="camisetas-container">
+  <!-- Camiseta 1 -->
+  <div class="camiseta">
+    <a href="https://www.amazon.com/dp/IDAFILIADO1" target="_blank">
+      <img src="https://images.unsplash.com/photo-1600181953896-536a41a02a64?auto=format&fit=crop&w=400&q=80" alt="Camiseta 1">
+    </a>
+    <a href="https://www.amazon.com/dp/IDAFILIADO1" target="_blank">
+      <button>Comprar</button>
+    </a>
+  </div>
+  <!-- Camiseta 2 -->
+  <div class="camiseta">
+    <a href="https://www.amazon.com/dp/IDAFILIADO2" target="_blank">
+      <img src="https://images.unsplash.com/photo-1600181953896-536a41a02a64?auto=format&fit=crop&w=400&q=80" alt="Camiseta 2">
+    </a>
+    <a href="https://www.amazon.com/dp/IDAFILIADO2" target="_blank">
+      <button>Comprar</button>
+    </a>
+  </div>
+  <!-- Camiseta 3 -->
+  <div class="camiseta">
+    <a href="https://www.amazon.com/dp/IDAFILIADO3" target="_blank">
+      <img src="https://images.unsplash.com/photo-1600181953896-536a41a02a64?auto=format&fit=crop&w=400&q=80" alt="Camiseta 3">
+    </a>
+    <a href="https://www.amazon.com/dp/IDAFILIADO3" target="_blank">
+      <button>Comprar</button>
+    </a>
+  </div>
+</div>
 </div>
 
 <script>
@@ -222,62 +300,3 @@ function shareResult(){
 
 </body>
 </html>
-
-<div class="top3-camisetas" style="margin-top:40px;">
-  <h2 style="text-align:center;color:#1d4ed8;margin-bottom:20px;">TOP 3 CAMISETAS MÁS VENDIDAS</h2>
-  
-  <div class="camisetas-container" style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;">
-    
-    <!-- Camiseta 1 -->
-    <div class="camiseta" style="flex:1 1 30%;text-align:center;background:#f8fafc;padding:12px;border-radius:14px;border:1px solid #c7d2fe;">
-      <a href="https://www.amazon.com/dp/IDAFILIADO1" target="_blank">
-        <img src="https://images.unsplash.com/photo-1600181953896-536a41a02a64?auto=format&fit=crop&w=400&q=80" 
-             alt="Camiseta 1" style="width:100%;border-radius:12px;margin-bottom:12px;box-shadow:0 6px 12px rgba(0,0,0,0.15);">
-      </a>
-      <a href="https://www.amazon.com/dp/IDAFILIADO1" target="_blank">
-        <button style="width:100%;padding:12px;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,#22c55e,#2563eb);color:#fff;font-size:14px;cursor:pointer;transition:0.3s;">
-          Comprar
-        </button>
-      </a>
-    </div>
-    
-    <!-- Camiseta 2 -->
-    <div class="camiseta" style="flex:1 1 30%;text-align:center;background:#f8fafc;padding:12px;border-radius:14px;border:1px solid #c7d2fe;">
-      <a href="https://www.amazon.com/dp/IDAFILIADO2" target="_blank">
-        <img src="https://images.unsplash.com/photo-1600181953896-536a41a02a64?auto=format&fit=crop&w=400&q=80" 
-             alt="Camiseta 2" style="width:100%;border-radius:12px;margin-bottom:12px;box-shadow:0 6px 12px rgba(0,0,0,0.15);">
-      </a>
-      <a href="https://www.amazon.com/dp/IDAFILIADO2" target="_blank">
-        <button style="width:100%;padding:12px;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,#22c55e,#2563eb);color:#fff;font-size:14px;cursor:pointer;transition:0.3s;">
-          Comprar
-        </button>
-      </a>
-    </div>
-    
-    <!-- Camiseta 3 -->
-    <div class="camiseta" style="flex:1 1 30%;text-align:center;background:#f8fafc;padding:12px;border-radius:14px;border:1px solid #c7d2fe;">
-      <a href="https://www.amazon.com/dp/IDAFILIADO3" target="_blank">
-        <img src="https://images.unsplash.com/photo-1600181953896-536a41a02a64?auto=format&fit=crop&w=400&q=80" 
-             alt="Camiseta 3" style="width:100%;border-radius:12px;margin-bottom:12px;box-shadow:0 6px 12px rgba(0,0,0,0.15);">
-      </a>
-      <a href="https://www.amazon.com/dp/IDAFILIADO3" target="_blank">
-        <button style="width:100%;padding:12px;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,#22c55e,#2563eb);color:#fff;font-size:14px;cursor:pointer;transition:0.3s;">
-          Comprar
-        </button>
-      </a>
-    </div>
-    
-  </div>
-</div>
-
-<!-- Opcional: efecto hover para los botones -->
-<style>
-.top3-camisetas button:hover{
-  transform: translateY(-2px);
-  box-shadow:0 8px 16px rgba(0,0,0,0.25);
-}
-@media(max-width:800px){
-  .camisetas-container{flex-direction:column;gap:16px;}
-}
-</style>
-
